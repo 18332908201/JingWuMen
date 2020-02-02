@@ -1,28 +1,27 @@
 package com.tsxy.zhd.vo;
 
+import java.util.List;
+
+//用户信息
 public class User {
-	private int id;
-	private String username;
-	private String password;
-	private int age;
-	private String phono;
-	
-	
+	private Integer id;//主键
+	private String username;//用户名
+	private String password;//密码
+	private List<Role> roles;//角色集合
 	public User() {
 		super();
 	}
-	public User(int id, String username, String password, int age, String phono) {
+	public User(Integer id, String username, String password, List<Role> roles) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.age = age;
-		this.phono = phono;
+		this.roles = roles;
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getUsername() {
@@ -37,17 +36,12 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getAge() {
-		return age;
+	public List<Role> getRoles() {
+		return roles;
 	}
-	public void setAge(int age) {
-		this.age = age;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
-	public String getPhono() {
-		return phono;
-	}
-	public void setPhono(String phono) {
-		this.phono = phono;
-	}
+	
 	
 }

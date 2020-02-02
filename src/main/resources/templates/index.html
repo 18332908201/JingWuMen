@@ -1,17 +1,138 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <!-- 可以看到 thymeleaf 是通过在标签里添加额外属性来绑定动态数据的 -->
-    <title th:text="${title}">Title</title>
-    <!-- 在/resources/static/js目录下创建一个hello.js 用如下语法依赖即可-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>开始使用layui</title>
+  <link rel="stylesheet" href="../layui/css/layui.css">
 </head>
-<body>
-    <h1 th:text="${desc}">Hello World</h1>
-    <h2>=====作者信息=====</h2>
-        <p th:text="${user.username}"></p>
-        <p th:text="${user.age}"></p>
-        <p th:text="${user.password}"></p>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">唐山精舞门管理系统</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item leftdaohang" mytitle="主页" data-url="/user/tologin"><a href="">主页</a></li>
+      <li class="layui-nav-item leftdaohang" mytitle="在线报名" data-url="/user/tologin"><a href="">在线报名</a></li>
+      <li class="layui-nav-item leftdaohang" mytitle="活动公告" data-url="/user/tologin"><a href="">活动公告</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">俱乐部概况</a>
+        <dl class="layui-nav-child">
+          <dd class="leftdaohang" mytitle="俱乐部概况" data-url="/user/tologin"><a href="">发展</a></dd>
+          <dd class="leftdaohang" mytitle="俱乐部概况" data-url="/user/tologin"><a href="">规模</a></dd>
+          <dd class="leftdaohang" mytitle="俱乐部概况" data-url="/user/tologin"><a href="">现状</a></dd>
+          <dd class="leftdaohang" mytitle="俱乐部概况" data-url="/user/tologin"><a href="">健身知识</a></dd>
+        </dl>
+      </li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;" id="userName" >
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+		  <span th:text="${user.username}"></span>
+        </a>
+      </li>
+      <li class="layui-nav-item"><a href="">退了</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">课程管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">列表一</a></dd>
+            <dd><a href="javascript:;">列表二</a></dd>
+            <dd><a href="javascript:;">列表三</a></dd>
+            <dd><a href="">超链接</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">用户管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">列表一</a></dd>
+            <dd><a href="javascript:;">列表二</a></dd>
+            <dd><a href="">超链接</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">新闻管理</a></li>
+        <li class="layui-nav-item"><a href="">活动公告管理</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;" id="bodyDiv">
+    	<!-- 轮播图 -->
+    	<div class="layui-carousel" id="test2" >
+		  		<div carousel-item="">
+		    		<div><img src="../upload/d.jfif" width="100%" height="100%"></div>
+		    		<div><img src="../upload/b.jfif" width="100%" height="100%"></div>
+		    		<div><img src="../upload/c.jfif" width="100%" height="100%"></div>
+		    		<div><img src="../upload/a.jfif" width="100%" height="100%"></div>
+		    		<div><img src="../upload/f.jfif" width="100%" height="100%"></div>
+		  		</div>
+		</div>
+		<!-- 页面加载 -->
+		<div id="pageHtml"></div>
+    
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+  </div>
+</div>
+<script src="../jquery/jquery-3.3.1.js"></script>
+<script src="../layui/layui.js"></script>
+<script th:inline="javascript">
+layui.use(['element','carousel','form','layer'], function(){
+		  var element = layui.element,carousel = layui.carousel,form = layui.form,layer=layui.layer;
+			//改变下轮播图时间间隔、动画类型、高度
+			carousel.render({
+			  elem: '#test2'
+			  ,interval: 3000
+			  ,anim: 'fade'
+			  ,width: '100%'
+			  ,height: '615px'
+			});
+  
+			//点击事件
+           $(".leftdaohang").click(function(){
+			  //判断所属权限是否有该模块
+			  var url=$(this).attr('data-url');
+			  var mytitle=$(this).attr('mytitle');
+			  //获取session里的权限信息
+			  var permissionStr=[[${permissionStr}]];
+			  var arr=permissionStr.split("#");
+			  if(permissionStr==null){
+				  window.top.layer.msg("登录信息过期，请重新登录");
+				  return false;
+			  }
+			  if(mytitle=="主页"){
+				  //页面清空
+				  $('#pageHtml').empty();
+				  //展示轮播图
+				  $("#test2").css("display","block");
+				  return false;
+			  }else if(arr.indexOf(mytitle)==-1){
+				  window.top.layer.msg("没有权限");
+				  return false;
+			  }else{
+				  //页面清空
+				  $('#pageHtml').empty();
+				  //轮播图隐藏
+				  $("#test2").css("display","none");
+				  //加载页面
+				  $('#pageHtml').load(url);
+				  return false;
+			  }
+			});
+});
+</script> 
 </body>
 </html>
