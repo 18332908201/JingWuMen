@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>公告管理</title>
+</head>
+<body class="layui-layout-body">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>查询条件</legend>
+</fieldset>
+<form class="layui-form" action="" id="queryForm">
+<div class="demoTable">
+  标题：
+  <div class="layui-inline">
+    <input class="layui-input" name="title" id="title" autocomplete="off">
+  </div>
+  <button class="layui-btn" type="button" onclick="queryApply()">搜索</button>
+  
+</div>
+</form>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+  <legend>公告管理</legend>
+</fieldset>
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+  </div>
+</script>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+</body>
+<script th:src="@{/js/notice/data.js}"></script>
+<script type="text/javascript">
+//添加
+table.on('toolbar(test)', function(obj){
+	    if(obj.event=='add'){
+	    	layer.open({
+	    		  type: 2,
+	    		  title: '',
+	    		  shadeClose: true,
+	    		  closeBtn: 0, //不显示关闭按钮
+	    		  shade: 0.8,
+	    		  area: ['800px', '50%'],
+	    		  content: '/notice/toNoticeAdd' //iframe的url
+	    	}); 
+	    }
+});
+//删除&&修改
+table.on('tool(test)', function(obj){
+	  var data = obj.data;
+	  if(obj.event === 'del'){
+		  layer.confirm('真的删除行么', function(index){
+			  $.ajax({
+		            type:"post",
+		            url:"/notice/deleteNotice",
+		            contentType:"application/json;charset=utf-8",
+		            data:JSON.stringify(data.id),
+		            dataType:"text", // 这里声明收到的服务器的响应数据类型，如果是json的话，不声明也可以正常使用
+		            success:function (data) {
+		               if(data=="success"){
+		            	   queryApply();
+		            	   layer.close(index);
+		            	   window.top.layer.msg("删除成功")
+		               }else{
+		            	   window.top.layer.msg("删除失败")
+		               }
+		            },
+		            error:function () {
+		            	window.top.layer.msg("error");
+		            }
+
+		        }); 
+		  });
+	  }else if(obj.event === 'edit'){
+		  layer.open({
+    		  type: 2,
+    		  title: '',
+    		  shadeClose: true,
+    		  closeBtn: 0, //不显示关闭按钮
+    		  shade: 0.8,
+    		  area: ['800px', '50%'],
+    		  content: '/notice/toNoticeUpdate?id='+data.id //iframe的url
+    	}); 
+	  }
+	  
+});
+
+
+
+function query(){
+	reload2("test",1,"");
+}
+/*查询按钮*/
+function queryApply(){
+	var params = $("#queryForm").serializeArray();  
+    var values = {}; 
+    for( x in params ){  
+    	values[params[x].name] = params[x].value;  
+    }  
+    var stringObj = JSON.stringify(values)
+    reload2("test",1,eval("("+stringObj+")"));
+}
+</script>
+</html>
