@@ -1,23 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-.div-right{ 
-position:absolute;
-top:170px;
-right: 0px;
-} 
-</style> 
-</head>
-<script type="text/javascript">
-var layer;
-layui.use('layer',function(){
-	layer=layui.layer;
-});
 /**
  *数据重载
  */
@@ -242,5 +222,3 @@ function confirmMsg(option){
 		});
 	});    
 }
-</script>
-</html>
