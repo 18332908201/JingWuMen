@@ -145,7 +145,7 @@ public class ClassController {
         view.setViewName("class/classOrderShow");
         return view;
 	}
-	//课程管理页面数据
+	//课程预定页面数据
 	@RequestMapping(value="/classOrderShowData",produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String classOrderShowData(@RequestParam int page, @RequestParam int limit, ClassOrder classOrder) {
@@ -157,5 +157,12 @@ public class ClassController {
 		 String js = json.toString();
 		 String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";//转为layui需要的json格式
 		 return jso;
+	}
+	//去课程信息页面
+	@RequestMapping("/toClassInfo")
+	public ModelAndView toClassInfo(){
+		ModelAndView view = new ModelAndView();
+        view.setViewName("class/classInfo");
+        return view;
 	}
 }

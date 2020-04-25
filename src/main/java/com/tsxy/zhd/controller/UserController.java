@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,10 +59,12 @@ public class UserController {
 	@RequestMapping("/login")
 	public String login(@RequestBody User user,HttpSession session){
 		String status="fail";
+		//对传过来的密码进行加密
+		String md5Password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
 		//去数据库查询用户
 		User findUserByName = UserService.findUserByName(user.getUsername());
 		if(findUserByName!=null) {
-			if(findUserByName.getPassword().equals(user.getPassword())) {
+			if(findUserByName.getPassword().equals(md5Password)) {
 				status="success";
 				List<Role> roles = UserService.findRoleByUserId(findUserByName.getId());
 				//将权限信息放到session字符串中，以#相隔
@@ -123,6 +126,9 @@ public class UserController {
 		String time = dateFormat.format(now);
 		user.setTag("会员");
 		user.setInTime(time);
+		//对密码进行加密
+		String md5Password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
+		user.setPassword(md5Password);
 		UserService.saveUser(user);
 		//添加用户角色表
 		UserService.saveUserRole(user.getId(), 3);//普通用户角色id为3
@@ -152,6 +158,10 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("/updateUser")
 	public String updateUser(@RequestBody User user){
+		if(user.getPassword()!=null) {
+			String md5Password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
+			user.setPassword(md5Password);
+		}
 		UserService.updateByID(user);
 		return "success";
 	}

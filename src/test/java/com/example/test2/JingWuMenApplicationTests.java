@@ -2,12 +2,16 @@ package com.example.test2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.DigestUtils;
 
-@SpringBootTest
+@SpringBootTest()
 class JingWuMenApplicationTests {
 
 	@Test
 	void contextLoads() {
+		String password="admin";
+		String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
+		System.out.println(md5Password);
 	}
 
 }

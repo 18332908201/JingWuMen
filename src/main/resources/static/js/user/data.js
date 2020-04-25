@@ -6,7 +6,7 @@ layui.use('table', function(){
 	    ,url:'/user/userMainData'//路径
 	    ,toolbar: '#toolbarDemo' //表格上方按钮
 	    ,cols: [[//表格数据
-	      {field:'id', title: 'ID', sort: true}
+	      {field:'id', title: '序号', type:'numbers'}
 	      ,{field:'username', title: '用户名'}
 	      ,{field:'phoneNumber', title: '手机号'}
 	      ,{field:'inTime', title: '入会时间',sort: true}

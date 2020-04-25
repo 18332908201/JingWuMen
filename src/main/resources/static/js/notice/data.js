@@ -6,7 +6,7 @@ layui.use('table', function(){
 	    ,url:'/notice/noticeMainData'//路径
 	    ,toolbar: '#toolbarDemo' //表格上方按钮
 	    ,cols: [[//表格数据
-	      {field:'id', title: 'ID', sort: true}
+	      {field:'id', title: '序号', type:'numbers'}
 	      ,{field:'title', title: '标题'}
 	      ,{field:'body', title: '内容主体'}
 	      ,{field:'createTime', title: '创建时间',sort: true}

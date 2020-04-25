@@ -6,7 +6,7 @@ layui.use('table', function(){
 	    ,url:'/class/classMainData'//路径
 	    ,toolbar: '#toolbarDemo' //表格上方按钮
 	    ,cols: [[//表格数据
-	      {field:'id', title: 'ID', sort: true}
+	      {field:'id', title: '序号', type:'numbers'}
 	      ,{field:'className', title: '课程名'}
 	      ,{field:'classIntroduction', title: '课程介绍'}
 	      ,{field:'classNumber', title: '课程人数'}
